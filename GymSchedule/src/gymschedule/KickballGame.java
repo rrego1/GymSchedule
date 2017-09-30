@@ -11,4 +11,40 @@ package gymschedule;
  */
 public class KickballGame {
     
+    private Referee ref;
+    private Day day;
+    private int time;
+    
+    public KickballGame(){
+        
+    }
+    
+    public KickballGame(Day day, int time){
+        this.day = day;
+        this.time = time;
+    }
+    
+    public void setRef(Referee ref){
+        this.ref = ref;
+    }
+    
+    public Referee getRef(){
+        return ref;
+    }
+
+    public void setDay(Day day){
+        this.day = day;
+    }
+    
+    public Day getDay(){
+        return day;
+    }
+    
+    public void setTime(int time){
+        this.time = time;
+    }
+    
+    public int getTime(){
+        return time;
+    }
 }
