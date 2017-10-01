@@ -14,6 +14,16 @@ public class Availability {
     private Day day;
     private int startTime;
     private int endTime;
+    
+    public Availability(){
+        
+    }
+    
+    public Availability(Day day, int startTime, int endTime){
+        this.day = day;
+        this.startTime = startTime;
+        this.endTime = endTime;
+    }
 
     public Day getDay() {
         return day;
@@ -39,5 +49,9 @@ public class Availability {
         this.endTime = endTime;
     }
     
+    @Override
+    public String toString(){
+        return startTime + "-" + endTime;
+    }
     
 }

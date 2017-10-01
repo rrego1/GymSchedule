@@ -31,6 +31,7 @@ public class SoccerGame {
         this.ref1 = ref1;
         ref1.scheduleHours(GAME_LENGTH);
         ref1.updateAvailability(day, time, GAME_LENGTH);
+        ref1.addGame(day, time, GAME_LENGTH);
     }
     
     public Referee getRef1(){
@@ -41,6 +42,7 @@ public class SoccerGame {
         this.ref2 = ref2;
         ref2.scheduleHours(GAME_LENGTH);
         ref2.updateAvailability(day, time, GAME_LENGTH);
+        ref2.addGame(day, time, GAME_LENGTH);
     }
     
     public Referee getRef2(){

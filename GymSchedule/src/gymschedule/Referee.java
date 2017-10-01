@@ -52,6 +52,10 @@ public class Referee {
     public void setSports(ArrayList<Sport> sports) {
         this.sports = sports;
     }
+    
+    public void addSport(Sport sport){
+        this.sports.add(sport);
+    }
 
     public ArrayList<Availability> getAvailable() {
         return available;
@@ -64,7 +68,7 @@ public class Referee {
     public void addAvailablity(Availability availability){
         int hoursFree = availability.getEndTime() - availability.getStartTime();
         availableHours = availableHours + hoursFree;
-        available.add(availability);
+        this.available.add(availability);
     }
 
     public ArrayList<Availability> getScheduled() {
@@ -73,6 +77,11 @@ public class Referee {
 
     public void setScheduled(ArrayList<Availability> scheduled) {
         this.scheduled = scheduled;
+    }
+    
+    public void addGame(Day day, int time, int GAME_LENGTH) {
+        Availability game = new Availability(day, time, time + GAME_LENGTH);
+        this.scheduled.add(game);
     }
 
     public int getAvailableHours() {
@@ -93,9 +102,9 @@ public class Referee {
     
     public boolean isFree(Day day, int time, int gameLength){
         boolean free = false;
-        
+       
         for(Availability timeslot : available){
-            if(timeslot.getDay() == day){
+            if(timeslot.getDay().equals(day)){
                 if(timeslot.getStartTime() <= time && timeslot.getEndTime() >= time + gameLength){
                     return true;
                 }
