@@ -16,6 +16,8 @@ public class SoccerGame {
     private Day day;
     private int time;
     
+    private static final int GAME_LENGTH = 1;
+    
     public SoccerGame(){
         
     }
@@ -27,6 +29,8 @@ public class SoccerGame {
     
     public void setRef1(Referee ref1){
         this.ref1 = ref1;
+        ref1.scheduleHours(GAME_LENGTH);
+        ref1.updateAvailability(day, time, GAME_LENGTH);
     }
     
     public Referee getRef1(){
@@ -35,6 +39,8 @@ public class SoccerGame {
     
     public void setRef2(Referee ref2){
         this.ref2 = ref2;
+        ref2.scheduleHours(GAME_LENGTH);
+        ref2.updateAvailability(day, time, GAME_LENGTH);
     }
     
     public Referee getRef2(){
@@ -55,5 +61,9 @@ public class SoccerGame {
     
     public int getTime(){
         return time;
+    }
+    
+    public int getGameLength(){
+        return GAME_LENGTH;
     }
 }

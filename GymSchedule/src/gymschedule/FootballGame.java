@@ -17,6 +17,8 @@ public class FootballGame {
     private Day day;
     private int time;
     
+    private static final int GAME_LENGTH = 1;
+    
     public FootballGame(){
         
     }
@@ -64,5 +66,9 @@ public class FootballGame {
     
     public int getTime(){
         return time;
+    }
+    
+    public int getGameLength(){
+        return GAME_LENGTH;
     }
 }

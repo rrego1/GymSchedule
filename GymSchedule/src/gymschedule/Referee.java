@@ -57,17 +57,23 @@ public class Referee {
         return available;
     }
 
-    /*public void setAvailable(ArrayList<Availability> available) {
+    public void setAvailable(ArrayList<Availability> available) {
         this.available = available;
-    }*/
+    }
+    
+    public void addAvailablity(Availability availability){
+        int hoursFree = availability.getEndTime() - availability.getStartTime();
+        availableHours = availableHours + hoursFree;
+        available.add(availability);
+    }
 
     public ArrayList<Availability> getScheduled() {
         return scheduled;
     }
 
-    /*public void setScheduled(ArrayList<Availability> scheduled) {
+    public void setScheduled(ArrayList<Availability> scheduled) {
         this.scheduled = scheduled;
-    }*/
+    }
 
     public int getAvailableHours() {
         return availableHours;
@@ -84,4 +90,64 @@ public class Referee {
     public void setScheduledHours(int scheduledHours) {
         this.scheduledHours = scheduledHours;
     }
+    
+    public boolean isFree(Day day, int time, int gameLength){
+        boolean free = false;
+        
+        for(Availability timeslot : available){
+            if(timeslot.getDay() == day){
+                if(timeslot.getStartTime() <= time && timeslot.getEndTime() >= time + gameLength){
+                    return true;
+                }
+            }
+        }
+        return free;
+    }
+    
+    public void updateAvailability(Day day, int time, int gameLength){
+        for(Availability timeslot : available){
+            if(timeslot.getDay() == day){
+                if(timeslot.getStartTime() <= time && timeslot.getEndTime() >= time - gameLength){
+                    int oldStart = timeslot.getStartTime();
+                    int oldEnd = timeslot.getEndTime();
+                    if(time - oldStart == 0 && oldEnd - time == 0){
+                        //fills up the whole block of time
+                        available.remove(timeslot);
+                    }
+                    else if(time - oldStart == 0){
+                        //start of the time block
+                        timeslot.setStartTime(oldStart + gameLength);
+                    }else if(oldEnd - time == 0){
+                        //ends of the time block
+                        timeslot.setEndTime(oldEnd - gameLength);
+                    }else{
+                        //middle of the time block - hopefully never really used
+                        Availability newSlot = new Availability();
+                        newSlot.setDay(day);
+                        newSlot.setStartTime(oldStart);
+                        newSlot.setEndTime(time);
+                        
+                        timeslot.setEndTime(time + gameLength);
+                        
+                        available.add(newSlot);
+                    }
+                    break;
+                }
+            }
+        }
+    }
+
+    public void scheduleHours(int gameLength) {
+        this.scheduledHours = this.scheduledHours + gameLength;
+    }
+    
+    public boolean canRef(Sport sport){
+        for(Sport spt : sports){
+            if(spt.equals(sport)){
+                return true;
+            }
+        }
+        return false;
+    }
+
 }
