@@ -67,18 +67,29 @@ public class GymSchedule {
             for(int i = 0; i < referees.size(); i++){
                 Referee ref = referees.get(i);
                 if(ref.isFree(game.getDay(), game.getTime(), game.getGameLength()) && ref.canRef(Sport.SOCCER)){
-                    if(game.getRef1() == null){
-                        game.setRef1(ref);
+                    //continue fixing this
+                    Availability availability = ref.getTimeslot(game.getDay(), game.getTime());
+                    /*boolean added = false
+                    if(availability.getEndTime() - game.getTime() == 4){
+                        //scheudle the 4 hour chunk of time
+                        SoccerGame game2 = getFollowingGame(game, soccerGames);
+                        SoccerGame game3 = getFollowingGame(game2, soccerGames);
+                        SoccerGame game4 = getFollowingGame(game3, soccerGames);
+
+
+                    }else if(availability.getEndTime() - game.getTime() == 2){
+                        //schedule the 2 hour chunk
+                        SoccerGame game2 = getFollowingGame(game, soccerGames);
+                    }*/
+                    boolean added = game.addRef(ref);
+                    if(!added){
+                        break;
                     }else{
-                        if(game.getRef2() == null){
-                            game.setRef2(ref);
-                        }else{
-                            break;
-                        }
+                        referees.remove(ref);
+                        referees.add(ref);
+                        i--; 
                     }
-                    referees.remove(ref);
-                    referees.add(ref);
-                    i--;
+
                 }
             }
             if(!game.isFull()){
@@ -106,7 +117,7 @@ public class GymSchedule {
         Day day = game.getDay();
         
         for(FootballGame footballGame : games){
-            if(footballGame.getDay().equals(day) && time == footballGame.getTime() + footballGame.getGameLength()){
+            if(footballGame.getDay().equals(day) && time == footballGame.getTime() - footballGame.getGameLength()){
                 return footballGame;
             }
         }
@@ -119,7 +130,7 @@ public class GymSchedule {
         Day day = game.getDay();
         
         for(SoccerGame soccerGame : games){
-            if(soccerGame.getDay().equals(day) && time == soccerGame.getTime() + soccerGame.getGameLength()){
+            if(soccerGame.getDay().equals(day) && time == soccerGame.getTime() - soccerGame.getGameLength()){
                 return soccerGame;
             }
         }
@@ -132,7 +143,7 @@ public class GymSchedule {
         Day day = game.getDay();
         
         for(KickballGame kickballGame : games){
-            if(kickballGame.getDay().equals(day) && time == kickballGame.getTime() + kickballGame.getGameLength()){
+            if(kickballGame.getDay().equals(day) && time == kickballGame.getTime() - kickballGame.getGameLength()){
                 return kickballGame;
             }
         }
@@ -225,25 +236,25 @@ public class GymSchedule {
         refs.add(jenn);
         refs.add(steph);
         
-        //ryan.addAvailablity(monday);
-        //ryan.addAvailablity(tuesday);
-        ryan.addAvailablity(wednesday);
-        ryan.addAvailablity(thursday);
+        //ryan.addAvailability(monday);
+        //ryan.addAvailability(tuesday);
+        ryan.addAvailability(wednesday);
+        ryan.addAvailability(thursday);
         
-        amanda.addAvailablity(mondayA);
-        //amanda.addAvailablity(tuesdayA);
-        amanda.addAvailablity(wednesdayA);
-        //amanda.addAvailablity(thursdayA);
+        amanda.addAvailability(mondayA);
+        //amanda.addAvailability(tuesdayA);
+        amanda.addAvailability(wednesdayA);
+        //amanda.addAvailability(thursdayA);
         
-        //jenn.addAvailablity(mondayJ);
-        jenn.addAvailablity(tuesdayJ);
-        //jenn.addAvailablity(wednesdayJ);
-        jenn.addAvailablity(thursdayJ);
+        //jenn.addAvailability(mondayJ);
+        jenn.addAvailability(tuesdayJ);
+        //jenn.addAvailability(wednesdayJ);
+        jenn.addAvailability(thursdayJ);
         
-        steph.addAvailablity(mondayS);
-        steph.addAvailablity(tuesdayS);
-        steph.addAvailablity(wednesdayS);
-        steph.addAvailablity(thursdayS);
+        steph.addAvailability(mondayS);
+        steph.addAvailability(tuesdayS);
+        steph.addAvailability(wednesdayS);
+        steph.addAvailability(thursdayS);
         
         return refs;
     }

@@ -61,4 +61,21 @@ public class KickballGame {
         
         return true;
     }
+    
+    public boolean isReffing(Referee ref){
+        if(this.ref.equals(ref)){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    
+    public void removeRef(Referee ref){
+        
+        if(ref.equals(this.ref)){
+            this.ref = null;
+        }
+        
+        ref.removeGame(day, time, GAME_LENGTH);
+    }
 }

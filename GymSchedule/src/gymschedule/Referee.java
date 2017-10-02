@@ -65,9 +65,18 @@ public class Referee {
         this.available = available;
     }
     
-    public void addAvailablity(Availability availability){
+    public void addAvailability(Availability availability){
         int hoursFree = availability.getEndTime() - availability.getStartTime();
         availableHours = availableHours + hoursFree;
+        for(Availability timeslot : available){
+            if(timeslot.getDay().equals(availability.getDay()) && timeslot.getEndTime() == availability.getStartTime()){
+                timeslot.combine(availability);
+            }else if(timeslot.getDay().equals(availability.getDay()) && timeslot.getStartTime() == availability.getEndTime()){
+                available.remove(timeslot);
+                availability.combine(timeslot);
+                available.add(availability);
+            }
+        }
         this.available.add(availability);
     }
 
@@ -79,9 +88,20 @@ public class Referee {
         this.scheduled = scheduled;
     }
     
-    public void addGame(Day day, int time, int GAME_LENGTH) {
-        Availability game = new Availability(day, time, time + GAME_LENGTH);
+    public void addGame(Day day, int time, int gameLength) {
+        Availability game = new Availability(day, time, time + gameLength);
         this.scheduled.add(game);
+    }
+    
+    public void removeGame(Day day, int time, int gameLength){
+        this.scheduledHours -= gameLength;
+        for(Availability game : this.scheduled){
+            if(game.getDay().equals(day) && game.getStartTime() == time){
+                this.scheduled.remove(game);
+            }
+        }
+        Availability free = new Availability(day, time, gameLength + time);
+        this.addAvailability(free);
     }
 
     public int getAvailableHours() {

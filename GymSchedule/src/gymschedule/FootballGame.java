@@ -79,4 +79,24 @@ public class FootballGame {
         
         return true;
     }
+    
+    public boolean isReffing(Referee ref){
+        if(head.equals(ref) || line.equals(ref) || back.equals(ref)){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    
+    public void removeRef(Referee ref){
+        
+        if(ref.equals(head)){
+            head = null;
+        }else if(ref.equals(line)){
+            line = null;
+        }else if(ref.equals(back)){
+            back = null;
+        }    
+        ref.removeGame(day, time, GAME_LENGTH);
+    }
 }

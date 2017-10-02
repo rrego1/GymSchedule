@@ -76,4 +76,36 @@ public class SoccerGame {
         
         return true;
     }
+    
+    public boolean isReffing(Referee ref){
+        if(ref1.equals(ref) || ref2.equals(ref)){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    
+    public boolean addRef(Referee ref){
+        if(ref1 == null){
+            this.setRef1(ref);
+        }else{
+            if(ref2 == null){
+                this.setRef2(ref);
+            }else{
+                return false;
+            }
+        }      
+        return true;
+    }
+    
+    public void removeRef(Referee ref){
+        
+        if(ref.equals(ref1)){
+            ref1 = null;
+        }else if(ref.equals(ref2)){
+            ref2 = null;
+        }
+        
+        ref.removeGame(day, time, GAME_LENGTH);
+    }
 }

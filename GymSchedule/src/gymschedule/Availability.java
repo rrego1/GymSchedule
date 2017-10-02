@@ -47,5 +47,9 @@ public class Availability {
 
     public void setEndTime(int endTime) {
         this.endTime = endTime;
-    }   
+    }
+    
+    public void combine(Availability timeslot){
+        this.endTime = timeslot.endTime;
+    }
 }
