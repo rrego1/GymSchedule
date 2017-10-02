@@ -53,4 +53,12 @@ public class KickballGame {
     public int getGameLength(){
         return GAME_LENGTH;
     }
+    
+    public boolean isFull(){
+        if(ref == null){
+            return false;
+        }
+        
+        return true;
+    }
 }

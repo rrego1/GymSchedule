@@ -62,8 +62,10 @@ public class GymSchedule {
     }
     
     private static void scheduleSoccer(ArrayList<SoccerGame> soccerGames, ArrayList<Referee> referees){
+        int goalHours = calculateHoursPerSoccerRef(referees, soccerGames);
         for(SoccerGame game : soccerGames){
-            for(Referee ref : referees){
+            for(int i = 0; i < referees.size(); i++){
+                Referee ref = referees.get(i);
                 if(ref.isFree(game.getDay(), game.getTime(), game.getGameLength()) && ref.canRef(Sport.SOCCER)){
                     if(game.getRef1() == null){
                         game.setRef1(ref);
@@ -74,9 +76,16 @@ public class GymSchedule {
                             break;
                         }
                     }
+                    referees.remove(ref);
+                    referees.add(ref);
+                    i--;
                 }
             }
-            //ADD HERE WHAT HAPPENS WHEN NO REFEREE IS FREE
+            if(!game.isFull()){
+                //ADD HERE WHAT HAPPENS WHEN NO REFEREE IS FREE
+                    //have to find a ref that with that availability who is already scheduled
+            }
+
         }
     }
         
@@ -86,13 +95,96 @@ public class GymSchedule {
     
     private static void printSchedule(ArrayList<Referee> referees){
         for(Referee ref : referees){
-            System.out.print(ref.getName() + ": ");
-            for(Availability schedule : ref.getScheduled()){
-                System.out.print(schedule.toString());
-            }
+            System.out.print(ref.toString());
+            System.out.print(ref.getScheduledHours());
             System.out.println();
         }
     }
+    
+    private static FootballGame getFollowingGame(FootballGame game, ArrayList<FootballGame> games){
+        int time = game.getTime();
+        Day day = game.getDay();
+        
+        for(FootballGame footballGame : games){
+            if(footballGame.getDay().equals(day) && time == footballGame.getTime() + footballGame.getGameLength()){
+                return footballGame;
+            }
+        }
+        
+        return null;       
+    }
+    
+    public static SoccerGame getFollowingGame(SoccerGame game, ArrayList<SoccerGame> games){
+        int time = game.getTime();
+        Day day = game.getDay();
+        
+        for(SoccerGame soccerGame : games){
+            if(soccerGame.getDay().equals(day) && time == soccerGame.getTime() + soccerGame.getGameLength()){
+                return soccerGame;
+            }
+        }
+        
+        return null;    
+    }
+        
+    private static KickballGame getFollowingGame(KickballGame game, ArrayList<KickballGame> games){
+        int time = game.getTime();
+        Day day = game.getDay();
+        
+        for(KickballGame kickballGame : games){
+            if(kickballGame.getDay().equals(day) && time == kickballGame.getTime() + kickballGame.getGameLength()){
+                return kickballGame;
+            }
+        }
+        
+        return null;
+        
+    }
+    
+    private static int calculateHoursPerFootballRef(ArrayList<Referee> refs, ArrayList<FootballGame> games){
+        int hours = 0;
+        int numRefs = 0;
+        for(Referee ref : refs){
+            if(ref.canRef(Sport.FOOTBALL)){
+                numRefs++;
+            }
+        }
+        int gameLength = games.get(0).getGameLength();
+        if(numRefs != 0){
+            hours = (games.size() * 3 * gameLength) / numRefs; 
+        }
+        return hours;
+    } 
+    
+    private static int calculateHoursPerSoccerRef(ArrayList<Referee> refs, ArrayList<SoccerGame> games){
+        int hours = 0;
+        int numRefs = 0;
+        for(Referee ref : refs){
+            if(ref.canRef(Sport.SOCCER)){
+                numRefs++;
+            }
+        }
+        int gameLength = games.get(0).getGameLength();
+        if(numRefs != 0){
+            hours = (games.size() * 2 * gameLength) / numRefs; 
+        }
+        return hours;
+    } 
+        
+    private static int calculateHoursPerKickballRef(ArrayList<Referee> refs, ArrayList<KickballGame> games){
+        int hours = 0;
+        int numRefs = 0;
+        for(Referee ref : refs){
+            if(ref.canRef(Sport.KICKBALL)){
+                numRefs++;
+            }
+        }
+        int gameLength = games.get(0).getGameLength();
+        if(numRefs != 0){
+            hours = (games.size() * 1 * gameLength) / numRefs; 
+        }
+        return hours;
+    } 
     
     private static ArrayList<Referee> getTestRefs(){
         
@@ -117,21 +209,41 @@ public class GymSchedule {
         Availability wednesdayA = new Availability(Day.WEDNESDAY, 7, 11);
         Availability thursdayA = new Availability(Day.THURSDAY, 7, 11);
         
+        Availability mondayJ = new Availability(Day.MONDAY, 7, 11);
+        Availability tuesdayJ = new Availability(Day.TUESDAY, 7, 11);
+        Availability wednesdayJ = new Availability(Day.WEDNESDAY, 7, 11);
+        Availability thursdayJ = new Availability(Day.THURSDAY, 7, 11);
+        
+        Availability mondayS = new Availability(Day.MONDAY, 7, 11);
+        Availability tuesdayS = new Availability(Day.TUESDAY, 7, 11);
+        Availability wednesdayS = new Availability(Day.WEDNESDAY, 7, 11);
+        Availability thursdayS = new Availability(Day.THURSDAY, 7, 11);
+        
                 
         refs.add(ryan);
         refs.add(amanda);
         refs.add(jenn);
         refs.add(steph);
         
-        ryan.addAvailablity(monday);
-        ryan.addAvailablity(tuesday);
+        //ryan.addAvailablity(monday);
+        //ryan.addAvailablity(tuesday);
         ryan.addAvailablity(wednesday);
         ryan.addAvailablity(thursday);
         
         amanda.addAvailablity(mondayA);
-        amanda.addAvailablity(tuesdayA);
+        //amanda.addAvailablity(tuesdayA);
         amanda.addAvailablity(wednesdayA);
-        amanda.addAvailablity(thursdayA);
+        //amanda.addAvailablity(thursdayA);
+        
+        //jenn.addAvailablity(mondayJ);
+        jenn.addAvailablity(tuesdayJ);
+        //jenn.addAvailablity(wednesdayJ);
+        jenn.addAvailablity(thursdayJ);
+        
+        steph.addAvailablity(mondayS);
+        steph.addAvailablity(tuesdayS);
+        steph.addAvailablity(wednesdayS);
+        steph.addAvailablity(thursdayS);
         
         return refs;
     }

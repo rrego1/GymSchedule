@@ -20,7 +20,7 @@ public class FootballGame {
     private static final int GAME_LENGTH = 1;
     
     public FootballGame(){
-        
+
     }
     
     public FootballGame(Day day, int time){
@@ -70,5 +70,13 @@ public class FootballGame {
     
     public int getGameLength(){
         return GAME_LENGTH;
+    }
+    
+    public boolean isFull(){
+        if(back == null && line == null && head == null){
+            return false;
+        }
+        
+        return true;
     }
 }

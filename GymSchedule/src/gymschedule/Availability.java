@@ -47,11 +47,5 @@ public class Availability {
 
     public void setEndTime(int endTime) {
         this.endTime = endTime;
-    }
-    
-    @Override
-    public String toString(){
-        return startTime + "-" + endTime;
-    }
-    
+    }   
 }

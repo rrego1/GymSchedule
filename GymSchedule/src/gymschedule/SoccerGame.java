@@ -68,4 +68,12 @@ public class SoccerGame {
     public int getGameLength(){
         return GAME_LENGTH;
     }
+    
+    public boolean isFull(){
+        if(ref1 == null && ref2 == null){
+            return false;
+        }
+        
+        return true;
+    }
 }

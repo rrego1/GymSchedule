@@ -158,5 +158,54 @@ public class Referee {
         }
         return false;
     }
-
+   
+    public Availability getTimeslot(Day day, int time){
+        for(Availability timeslot : available){
+            if(timeslot.getDay().equals(day)){
+                if(timeslot.getStartTime() <= time && timeslot.getEndTime() > time){
+                    return timeslot;
+                }
+            }
+        }
+        
+        for(Availability timeslot : scheduled){
+            if(timeslot.getDay().equals(day)){
+                if(timeslot.getStartTime() <= time && timeslot.getEndTime() > time){
+                    return timeslot;
+                }
+            }
+        }
+        
+        return null;     
+    }
+    
+    @Override
+    public String toString(){
+        String s = name + ": \n";
+        s += "Monday: ";
+        for(Availability timeslot : scheduled){
+            if(timeslot.getDay().equals(Day.MONDAY)){
+                s+= timeslot.getStartTime() + "-" + timeslot.getEndTime() + " ";
+            }
+        }
+        s += "Tuesday: ";
+        for(Availability timeslot : scheduled){
+            if(timeslot.getDay().equals(Day.TUESDAY)){
+                s+= timeslot.getStartTime() + "-" + timeslot.getEndTime() + " ";
+            }
+        }
+        s += "Wednesday: ";
+        for(Availability timeslot : scheduled){
+            if(timeslot.getDay().equals(Day.WEDNESDAY)){
+                s+= timeslot.getStartTime() + "-" + timeslot.getEndTime() + " ";
+            }
+        }
+        s += "Thursday: ";
+        for(Availability timeslot : scheduled){
+            if(timeslot.getDay().equals(Day.THURSDAY)){
+                s+= timeslot.getStartTime() + "-" + timeslot.getEndTime() + " ";
+            }
+        }
+        return s;
+    }
 }
